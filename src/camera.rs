@@ -25,22 +25,24 @@ impl Camera {
     ) {
         // Rotation
         if keyboard_state.key_down(eadk::input::Key::Right) {
-            self.rotation.y += delta * ROTATION_SPEED;
-        }
-        if keyboard_state.key_down(eadk::input::Key::Left) {
             self.rotation.y -= delta * ROTATION_SPEED;
         }
+        if keyboard_state.key_down(eadk::input::Key::Left) {
+            self.rotation.y += delta * ROTATION_SPEED;
+        }
         if keyboard_state.key_down(eadk::input::Key::Up) {
-            self.rotation.x += delta * ROTATION_SPEED;
-            if self.rotation.x >= PI / 2.0 - 0.0001 {
-                self.rotation.x = PI / 2.0 - 0.0001
+            // Invert the sign here to make "Up" look upwards
+            self.rotation.x -= delta * ROTATION_SPEED;
+            if self.rotation.x <= -PI / 2.0 + 0.0001 {
+                self.rotation.x = -PI / 2.0 + 0.0001
             }
         }
         if keyboard_state.key_down(eadk::input::Key::Down) {
-            self.rotation.x -= delta * ROTATION_SPEED;
+            // Invert the sign here to make "Down" look downwards
+            self.rotation.x += delta * ROTATION_SPEED;
 
-            if self.rotation.x <= -PI / 2.0 + 0.0001 {
-                self.rotation.x = -PI / 2.0 + 0.0001
+            if self.rotation.x >= PI / 2.0 - 0.0001 {
+                self.rotation.x = PI / 2.0 - 0.0001
             }
         }
 
@@ -61,4 +63,4 @@ impl Camera {
     pub fn get_rotation(&self) -> &Vector3<f32> {
         &self.rotation
     }
-}
+}   
