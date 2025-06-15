@@ -434,13 +434,11 @@ impl Renderer {
     }
 
 fn project_point(&self, point: Vector3<f32>) -> Vector2<f32> {
-    let mut projected_xy = self.math_tools
+    let projected_vec = self.math_tools
         .projection_matrix
-        .project_vector(&point)
-        .xy();
-
-    projected_xy.y *= -1.0; // Kein Nutzlich // Endroit d'ou vient le problème de l'axe Y
-    projected_xy
+        .project_vector(&point);
+    
+    Vector2::new(projected_vec.x, -projected_vec.y)
 }
 
     fn clear_screen(&mut self, color: eadk::Color) {
